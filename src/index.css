@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.signin {
+  background: linear-gradient(50deg, #6ee7b7, #fef9c3);
+  min-height: 100vh;
+}
+
+.control {
+  @apply relative h-fit my-4;
+}
+.inp {
+  @apply w-full py-3 px-4 outline-none text-gray-500 text-sm border border-gray-500;
+}
+.logs {
+  @apply absolute text-gray-600 top-4 right-4 text-lg;
+}
+
+.smallie {
+  @apply bg-white text-center p-4 rounded-sm text-black font-light absolute w-[200%] top-full;
+  display: none;
+}
+.open:hover .smallie {
+  display: block;
+}
+.nav {
+  @apply flex justify-between px-6 py-3 bg-gray-800 items-center text-gray-400 font-semibold text-sm border-b-2 border-gray-600;
+}
+
+.under {
+  background: linear-gradient(to bottom, #075985, #7e22ce);
+}
+
+.prof_inp {
+  @apply border-2 border-gray-300 w-full block px-4 py-2 outline-none rounded-md text-gray-500;
+}
