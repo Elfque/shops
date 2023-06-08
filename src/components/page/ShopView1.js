@@ -1,3 +1,4 @@
+import { Line, LineChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import Navbar from "../layout/Navbar";
 import Footer from "../layout/Footer";
 import { AiOutlineDollarCircle, AiOutlinePlus } from "react-icons/ai";
@@ -116,6 +117,14 @@ const ShopView1 = () => {
     },
   ];
 
+  const data = [
+    { name: "Page A", uv: 400, pv: 200, amt: 2400 },
+    { name: "Page B", uv: 250, pv: 100, amt: 2400 },
+    { name: "Page C", uv: 300, pv: 20, amt: 2400 },
+    { name: "Page D", uv: 100, pv: 500, amt: 2400 },
+    { name: "Page E", uv: 50, pv: 300, amt: 2400 },
+  ];
+
   const durations = ["Day", "Week", "Month"];
   const ranges = ["Revenue", "Velocity"];
 
@@ -210,8 +219,23 @@ const ShopView1 = () => {
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 items-start">
           <div className="three hidden col-span-3 items-center justify-center h-full lg:flex">
-            Start tracking this store to see historical data and product
-            details.
+            <LineChart width={700} height={300} data={data}>
+              <Line
+                type="monotone"
+                dataKey="uv"
+                stroke="#000"
+                strokeWidth={2}
+              />
+              <Line
+                type="monotone"
+                dataKey="pv"
+                stroke="#000"
+                strokeWidth={2}
+              />
+              <CartesianGrid stroke="#ccc" />
+              <XAxis dataKey="name" />
+              <YAxis />
+            </LineChart>
           </div>
           <div className="py-2">
             <button className="text-white rounded-md bg-button_grey w-full py-2 font-semibold mt-2">
