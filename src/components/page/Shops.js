@@ -4,12 +4,7 @@ import UnderNav from "../layout/UnderNav";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineRise } from "react-icons/ai";
-import {
-  BsFillGrid1X2Fill,
-  BsCardList,
-  BsArrowLeftCircle,
-  BsArrowRightCircle,
-} from "react-icons/bs";
+import { BsFillGrid1X2Fill, BsCardList } from "react-icons/bs";
 import { TbSquareRoundedArrowDownFilled } from "react-icons/tb";
 
 const Shops = () => {
@@ -64,11 +59,11 @@ const Shops = () => {
   ];
 
   return (
-    <div className="bg-gray-200">
+    <div className="bg-gray-100">
       <Navbar />
       <UnderNav text="My Shops" />
       <div className="main p-4 mx-6 transform -translate-y-10 bg-white rounded-md">
-        <div className="flex justify-between">
+        <div className="flex justify-between flex-col sm:flex-row gap-3">
           <div className="flex gap-4 items-center">
             <div className="">Filter by tag:</div>
             <select
@@ -81,7 +76,7 @@ const Shops = () => {
             </select>
           </div>
           <div className="flex items-center gap-6">
-            <div className="tracked">1 / 5 tracked</div>
+            <div className="tracked hidden sm:inline">1 / 5 tracked</div>
             <div className="border-2 border-gray-300 rounded-lg grid grid-cols-3 w-80 text-center mx-auto divide-x-2">
               {durat.map((dur, idx) => (
                 <div
@@ -103,7 +98,7 @@ const Shops = () => {
             </button>
           </div>
         </div>
-        <div className="sec flex justify-between mt-4">
+        <div className="sec flex justify-between mt-2 mb-4 flex-col items-center gap-2 sm:flew-row">
           <div className="sel_part relative">
             <div
               className="top flex gap-6 items-center border border-gray-300 rounded-md py-1 px-2"
@@ -150,29 +145,29 @@ const Shops = () => {
           <div className="grid grid-cols-2 text-center mt-2">
             <div>
               <div className="title font-semibold text-slate-500">Revenue</div>
-              <div className="text-lg">$95,445.00</div>
+              <div className="sm:text-lg ">$95,445.00</div>
               <div className="title font-semibold text-slate-500">Revenue</div>
-              <div className="text-lg">$95,445.00</div>
+              <div className="sm:text-lg ">$95,445.00</div>
               <div className="title font-semibold text-slate-500">Revenue</div>
-              <div className="text-lg">$95,445.00</div>
+              <div className="sm:text-lg ">$95,445.00</div>
             </div>
             <div>
               <div className="title font-semibold text-slate-500">Revenue</div>
-              <div className="text-lg">$95,445.00</div>
+              <div className="sm:text-lg">$95,445.00</div>
               <div className="title font-semibold text-slate-500">Revenue</div>
-              <div className="text-lg">$95,445.00</div>
+              <div className="sm:text-lg">$95,445.00</div>
               <div className="title font-semibold text-slate-500">Revenue</div>
-              <div className="text-lg">$95,445.00</div>
+              <div className="sm:text-lg">$95,445.00</div>
             </div>
           </div>
-          <div className="piccs h-20 w-full border border-gray-300 rounded-md relative mt-2">
-            <BsArrowLeftCircle className="absolute top transform top-1/2 -translate-x-1/2 left-4" />
-            <BsArrowRightCircle className="absolute top transform top-1/2 -translate-x-1/2 right-4" />
-            <div className="w-4/5 mx-auto p-1 flex gap-1 overflow-hidden">
-              {pics.map((pic, idx) => (
-                <img key={idx} src={pic.img} alt="" />
-              ))}
-            </div>
+          <div className="piccs h-20 w-full border border-gray-300 rounded-md relative mt-2 flex gap-1 items-center justify-center">
+            {pics.map((pic, idx) => {
+              if (idx < 3) {
+                return (
+                  <img key={idx} src={pic.img} alt="" className="w-[30%]" />
+                );
+              }
+            })}
           </div>
         </div>
       </div>

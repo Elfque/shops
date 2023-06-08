@@ -5,6 +5,7 @@ import Home from "./page/Home";
 import StaffPicks from "./page/StaffPicks";
 import AddShop from "./page/AddShop";
 import ShopView from "./page/ShopsView";
+import ShopView1 from "./page/ShopView1";
 import Shops from "./page/Shops";
 import Profile from "./layout/Profile";
 import Settings from "./layout/Settings";
@@ -22,6 +23,7 @@ const Shop = () => {
           <Route exact path="/staffpicks" element={<StaffPicks />} />
           <Route exact path="/addshop" element={<AddShop />} />
           <Route exact path="/shopview" element={<ShopView />} />
+          <Route exact path="/shopview1" element={<ShopView1 />} />
           <Route exact path="/shops" element={<Shops />} />
           <Route exact path="/settings" element={<Settings />} />
           <Route exact path="/settings/profile" element={<Profile />} />

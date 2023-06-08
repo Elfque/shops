@@ -15,7 +15,7 @@ const ShopView = () => {
             It looks like you aren't tracking this store yet. Click the button
             below to connect it to your account.
           </div>
-          <button className="bg-blue-800 text-white py-2 px-20 mt-4 max-w-xs">
+          <button className="bg-blue-800 text-white py-2 mt-4 max-w-xs w-full rounded-md">
             Track Store
           </button>
         </div>
