@@ -3,8 +3,36 @@ import UnderNav from "../layout/UnderNav";
 import Footer from "../layout/Footer";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { BsArrowUpRight } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+
+const instance = axios.create({
+  baseURL: process.env.REACT_APP_BACK_URI,
+  headers: {
+    common: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  },
+});
 
 const ShopView = () => {
+  const [shopData, setShopData] = useState({});
+  const { id } = useParams();
+
+  useEffect(() => {
+    instance
+      .get(`/shop/${id}`, {
+        headers: {
+          common: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      })
+      .then((data) => setShopData(data));
+  }, []);
+
   return (
     <div className="bg-gray-300">
       <Navbar />

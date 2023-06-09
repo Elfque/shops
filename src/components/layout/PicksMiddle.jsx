@@ -1,8 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "./Card";
 import SmallCard from "./SmallCard";
+import axios from "axios";
+
+const instance = axios.create({
+  baseURL: process.env.REACT_APP_BACK_URI,
+  headers: {
+    common: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  },
+});
 
 const PicksMiddle = () => {
+  const [tags, setTags] = useState([]);
+  const [recent, setRecent] = useState([]);
+  const [revenuePro, setRevenuePro] = useState([]);
+  const [bestProduct, setBestProduct] = useState([]);
+
+  useEffect(() => {
+    instance.get("/dashboard/tags").then((data) => {
+      setTags(data.data.tags);
+    });
+
+    instance.get("/dashboard/recent").then((data) => {
+      setRecent(data.data.recently_added_products);
+    });
+    instance.get("/dashboard/top-revenue-producer").then((data) => {
+      console.log(data);
+      // setRevenuePro(data.data.recently_added_products);
+    });
+
+    instance.get("/dashboard/best-products").then((data) => {
+      console.log(data);
+      // setRevenuePro(data.data.recently_added_products);
+    });
+  }, []);
   const choices = [
     "Beauty",
     "Cat",
@@ -69,19 +103,20 @@ const PicksMiddle = () => {
       <div className="mid bg-white p-4 h-fit">
         <div className="text-2xl mb-4">Filter By Tag</div>
         <div className="flex flex-wrap gap-3">
-          {choices.map((cho, idx) => (
-            <div
-              className={`cho border-2 ${
-                select === cho
-                  ? "border-blue-500 bg-blue-200"
-                  : "border-gray-200"
-              } rounded-2xl px-3 py-2 cursor-pointer`}
-              key={idx}
-              onClick={() => setSelect(cho)}
-            >
-              {cho}
-            </div>
-          ))}
+          {tags &&
+            tags.map((cho, idx) => (
+              <div
+                className={`cho border-2 ${
+                  select === cho
+                    ? "border-blue-500 bg-blue-200"
+                    : "border-gray-200"
+                } rounded-2xl px-3 py-2 cursor-pointer`}
+                key={idx}
+                onClick={() => setSelect(cho)}
+              >
+                {cho}
+              </div>
+            ))}
         </div>
       </div>
       <div className="mid bg-white p-4">
@@ -93,14 +128,8 @@ const PicksMiddle = () => {
             <div className="col-span-10">Name</div>
             <div className="col-span-2">Time</div>
           </div>
-          <SmallCard />
-          <SmallCard />
-          <SmallCard />
-          <SmallCard />
-          <SmallCard />
-          <SmallCard />
-          <SmallCard />
-          <SmallCard />
+          {recent &&
+            recent.map((rec, idx) => <SmallCard product={rec} key={idx} />)}
         </div>
       </div>
       <div className="mid bg-white p-4">

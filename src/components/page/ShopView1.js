@@ -3,12 +3,38 @@ import Navbar from "../layout/Navbar";
 import Footer from "../layout/Footer";
 import { AiOutlineDollarCircle, AiOutlinePlus } from "react-icons/ai";
 import { BsArrowUpRight } from "react-icons/bs";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { BsFillGrid1X2Fill, BsCardList } from "react-icons/bs";
 import { TbSquareRoundedArrowDownFilled } from "react-icons/tb";
 import { AiOutlineRise } from "react-icons/ai";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
+const instance = axios.create({
+  baseURL: process.env.REACT_APP_BACK_URI,
+  headers: {
+    common: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  },
+});
 const ShopView1 = () => {
+    const [shopData, setShopData] = useState({});
+  const { id } = useParams();
+
+  useEffect(() => {
+    instance
+      .get(`/shop/${id}`, {
+        headers: {
+          common: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      })
+      .then((data) => setShopData(data));
+  }, []);
+  
   const products = [
     {
       img: "/img/6.png",
@@ -146,7 +172,7 @@ const ShopView1 = () => {
         <div className="font-bold text-xl ">
           Poly & Bark | The Internet's Favorite Sofas (US)
         </div>
-        <div className="text-gray-300">"poly-bark.myshopify.com</div>
+        <div className="text-gray-300">poly-bark.myshopify.com</div>
       </div>
       <div className="main p-4 w-[90%] mx-auto transform -translate-y-10 bg-white rounded-md">
         <div className="gridpart grid sm:grid-cols-2 lg:grid-cols-4 items-start border rounded-md overflow-hidden mt-4 divide-x-2 divide-y-2">
@@ -339,27 +365,33 @@ const ShopView1 = () => {
                 : "grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
             }   border-gray-400 rounded-lg`}
           >
-            {display === "list" && (
-              <div className="main_product grid grid-cols-12 text-center px-4 py-2 bg-gray-300 font-semibold">
+            {display === "list" ? (
+              <div className="main_product grid grid-cols-7 lg:grid-cols-12 text-center px-4 py-2 bg-gray-300 font-semibold">
                 <div className="col-span-5">Name</div>
-                <div className="size">Sales</div>
-                <div className="revenue col-span-2">Revenue</div>
-                <div className="velocity col-span-2">Velocity</div>
+                <div className="size hidden lg:inline">Sales</div>
+                <div className="revenue col-span-2 hidden lg:inline">
+                  Revenue
+                </div>
+                <div className="velocity col-span-2 hidden lg:inline">
+                  Velocity
+                </div>
                 <div className="view-pro col-span-2">View Product</div>
               </div>
+            ) : (
+              ""
             )}
             {products.map((pro, idx) => (
               <div
                 className={`main_product ${
                   display === "list"
-                    ? "grid grid-cols-12 text-center"
+                    ? "grid grid-cols-7 lg:grid-cols-12 text-center"
                     : "border-gray-200 rounded-md"
                 }  px-4 py-1 items-center w-full border`}
                 key={idx}
               >
                 <div
                   className={`gap-4 ${
-                    display === "list" ? "flex col-span-5" : ""
+                    display === "list" ? "flex col-span-5 truncate" : ""
                   } w-full items-center`}
                 >
                   <img
@@ -375,19 +407,19 @@ const ShopView1 = () => {
                     {pro.name}
                   </div>
                 </div>
-                <div className="size">
+                <div className="size hidden lg:inline">
                   {display === "grid" && (
                     <span className="font-semibold">Price : </span>
                   )}
                   {pro.sales}
                 </div>
-                <div className="revenue col-span-2">
+                <div className="revenue hidden lg:inline col-span-2">
                   {display === "grid" && (
                     <span className="font-semibold">Revenue : </span>
                   )}
                   ${pro.rev}
                 </div>
-                <div className="velocity col-span-2">
+                <div className="velocity hidden lg:inline col-span-2">
                   {display === "grid" && (
                     <span className="font-semibold">Velocity : </span>
                   )}

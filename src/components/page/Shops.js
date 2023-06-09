@@ -1,11 +1,22 @@
 import Navbar from "../layout/Navbar";
 import Footer from "../layout/Footer";
 import UnderNav from "../layout/UnderNav";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineRise } from "react-icons/ai";
 import { BsFillGrid1X2Fill, BsCardList } from "react-icons/bs";
 import { TbSquareRoundedArrowDownFilled } from "react-icons/tb";
+import axios from "axios";
+
+const instance = axios.create({
+  baseURL: process.env.REACT_APP_BACK_URI,
+  headers: {
+    common: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  },
+});
 
 const Shops = () => {
   const durat = ["Day", "Week", "Month"];
@@ -13,6 +24,7 @@ const Shops = () => {
   const [duration, setDuration] = useState(durat[0]);
   const [showDrop, setShowDrop] = useState(false);
   const [range, setRange] = useState(ranges[0]);
+  const [shops, setShops] = useState({});
 
   const changeRange = (i) => {
     setShowDrop(false);
@@ -58,12 +70,24 @@ const Shops = () => {
     },
   ];
 
+  useEffect(() => {
+    instance
+      .get("/shops", {
+        headers: {
+          common: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      })
+      .then((data) => setShops(data));
+  }, []);
+
   return (
     <div className="bg-gray-100">
       <Navbar />
       <UnderNav text="My Shops" />
       <div className="main p-4 mx-6 transform -translate-y-10 bg-white rounded-md">
-        <div className="flex justify-between flex-col sm:flex-row gap-3">
+        <div className="flex justify-between flex-col lg:flex-row gap-3 items-center">
           <div className="flex gap-4 items-center">
             <div className="">Filter by tag:</div>
             <select
@@ -98,7 +122,7 @@ const Shops = () => {
             </button>
           </div>
         </div>
-        <div className="sec flex justify-between mt-2 mb-4 flex-col items-center gap-2 sm:flew-row">
+        <div className="sec flex justify-between mt-2 mb-4 flex-col items-center gap-2 lg:flex-row">
           <div className="sel_part relative">
             <div
               className="top flex gap-6 items-center border border-gray-300 rounded-md py-1 px-2"
@@ -146,17 +170,19 @@ const Shops = () => {
             <div>
               <div className="title font-semibold text-slate-500">Revenue</div>
               <div className="sm:text-lg ">$95,445.00</div>
-              <div className="title font-semibold text-slate-500">Revenue</div>
+              <div className="title font-semibold text-slate-500">Sales</div>
               <div className="sm:text-lg ">$95,445.00</div>
-              <div className="title font-semibold text-slate-500">Revenue</div>
+              <div className="title font-semibold text-slate-500">SKU's</div>
               <div className="sm:text-lg ">$95,445.00</div>
             </div>
             <div>
-              <div className="title font-semibold text-slate-500">Revenue</div>
+              <div className="title font-semibold text-slate-500">Velocity</div>
               <div className="sm:text-lg">$95,445.00</div>
-              <div className="title font-semibold text-slate-500">Revenue</div>
+              <div className="title font-semibold text-slate-500">Country</div>
               <div className="sm:text-lg">$95,445.00</div>
-              <div className="title font-semibold text-slate-500">Revenue</div>
+              <div className="title font-semibold text-slate-500">
+                Tracked by
+              </div>
               <div className="sm:text-lg">$95,445.00</div>
             </div>
           </div>
@@ -164,7 +190,12 @@ const Shops = () => {
             {pics.map((pic, idx) => {
               if (idx < 3) {
                 return (
-                  <img key={idx} src={pic.img} alt="" className="w-[30%]" />
+                  <img
+                    key={idx}
+                    src={pic.img}
+                    alt=""
+                    className="w-[30%] h-full"
+                  />
                 );
               }
             })}
